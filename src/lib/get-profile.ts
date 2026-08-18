@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import type { Profile } from "@/types/database";
 
-export default async function Home() {
+export async function requireProfile(): Promise<{
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  profile: Profile;
+}> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -13,9 +17,13 @@ export default async function Home() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role")
+    .select("*")
     .eq("id", user.id)
     .single();
 
-  redirect(profile?.role === "admin" ? "/admin" : "/dashboard");
+  if (!profile) {
+    redirect("/login");
+  }
+
+  return { supabase, profile };
 }
