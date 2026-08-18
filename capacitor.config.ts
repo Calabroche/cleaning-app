@@ -12,7 +12,7 @@ const config: CapacitorConfig = {
   appName: "Cleaning App",
   webDir: "shell",
   server: {
-    url: isDev ? "http://localhost:3000" : "https://cleaning-app.vercel.app",
+    url: isDev ? "http://localhost:3000" : "https://cleaning-app-ten-gamma.vercel.app",
     cleartext: isDev,
   },
 };
