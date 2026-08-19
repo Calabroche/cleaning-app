@@ -1,4 +1,4 @@
-export type Role = "admin" | "employee";
+export type Role = "employee" | "admin" | "super_admin";
 export type TaskStatus = "pending" | "in_progress" | "done" | "skipped";
 export type NotificationType = "reminder" | "urgent" | "info";
 

@@ -42,14 +42,22 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && path.startsWith("/admin")) {
+  if (user && (path.startsWith("/admin") || path.startsWith("/super-admin"))) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
       .single();
 
-    if (profile?.role !== "admin") {
+    const isAdmin = profile?.role === "admin" || profile?.role === "super_admin";
+
+    if (path.startsWith("/admin") && !isAdmin) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+
+    if (path.startsWith("/super-admin") && profile?.role !== "super_admin") {
       const url = request.nextUrl.clone();
       url.pathname = "/";
       return NextResponse.redirect(url);

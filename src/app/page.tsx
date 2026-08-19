@@ -17,5 +17,6 @@ export default async function Home() {
     .eq("id", user.id)
     .single();
 
-  redirect(profile?.role === "admin" ? "/admin" : "/dashboard");
+  const isAdmin = profile?.role === "admin" || profile?.role === "super_admin";
+  redirect(isAdmin ? "/admin" : "/dashboard");
 }
