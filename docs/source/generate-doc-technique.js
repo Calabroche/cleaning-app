@@ -93,12 +93,13 @@ const stackRows = [
   ["Stockage fichiers", "Supabase Storage (bucket privé task-photos)"],
   ["Mobile", "Capacitor 8 (coquilles iOS / Android autour de l'app web)"],
   ["Hébergement web", "Vercel"],
+  ["Monitoring performance", "Vercel Speed Insights (Web Vitals réels : TTFB, LCP, CLS, INP)"],
   ["Dépôt de code", "GitHub — Calabroche/cleaning-app (privé)"],
 ];
 
 const tableRows = [
   ["Table", "Rôle"],
-  ["profiles", "1 ligne par utilisateur (auth.users). Rôle admin/employee, nom, email, téléphone. Créée automatiquement à l'inscription via trigger."],
+  ["profiles", "1 ligne par utilisateur (auth.users). Rôle employee/admin/super_admin, nom, email, téléphone. Créée automatiquement à l'inscription via trigger."],
   ["apartments", "Appartements/logements à nettoyer : nom, adresse, notes (codes d'accès, consignes)."],
   ["tasks", "Une tâche de ménage = un appartement, une date, un·e employé·e assigné·e, un statut (à faire / en cours / terminé / reporté), un flag urgent."],
   ["task_photos", "Photos déposées par les employés pour une tâche, stockées dans Supabase Storage."],
@@ -116,13 +117,21 @@ const employeeFeatures = [
 ];
 
 const adminFeatures = [
-  "Accès web uniquement, protégé par rôle (profiles.role = 'admin')",
+  "Accès web uniquement, protégé par rôle (admin ou super_admin)",
   "Vue d'ensemble : tâches du jour, urgences en cours, nombre d'employés, flux d'activité récente",
   "Gestion des appartements (création, consultation)",
   "Planning : assignation de tâches à un·e employé·e pour une date donnée, avec option \"urgent\" (notifie immédiatement)",
   "Équipe : liste des employé·es, rôle, date de dernière connexion, promotion/rétrogradation admin",
   "Notifications : envoi ciblé ou en broadcast, historique des envois",
   "Traçabilité complète : qui se connecte, quand, et quelles actions sont effectuées",
+];
+
+const superAdminFeatures = [
+  "Section /super-admin séparée, réservée au rôle super_admin (accès développeur, distinct de l'admin métier)",
+  "Vue d'ensemble : répartition des comptes par rôle, volume d'événements journalisés, liens directs vers Vercel (Observability/Speed Insights, déploiements), Supabase et Google Cloud",
+  "Comptes & sessions : tous les comptes avec dernière connexion réelle (auth.users.last_sign_in_at), changement de rôle, déconnexion forcée (invalide toutes les sessions actives), suppression de compte",
+  "Activité : journal complet (200 derniers événements) tous comptes confondus, y compris les actions super-admin elles-mêmes",
+  "La performance applicative (temps de réponse API, Web Vitals) n'est pas réimplémentée en interne : renvoi vers les dashboards natifs Vercel/Supabase, plus fiables et déjà disponibles gratuitement",
 ];
 
 const todayFr = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
@@ -172,30 +181,32 @@ const doc = new Document({
         code("│  ├─ (auth)/                login, signup"),
         code("│  ├─ auth/                   callback OAuth, signout"),
         code("│  ├─ (employee)/            dashboard, tasks/:id, notifications"),
-        code("│  └─ admin/                  overview, planning, apartments, users, notifications"),
-        code("├─ src/lib/supabase/         clients Supabase (browser / server / middleware)"),
+        code("│  ├─ admin/                  overview, planning, apartments, users, notifications"),
+        code("│  └─ super-admin/            overview, users (comptes/sessions), activity"),
+        code("├─ src/lib/supabase/         clients Supabase (browser / server / middleware / admin)"),
         code("├─ src/types/                types TypeScript du schéma DB"),
         code("├─ src/proxy.ts              protection des routes par session/rôle"),
-        code("├─ supabase/migrations/      schéma SQL + RLS (0001_init.sql)"),
+        code("├─ supabase/migrations/      schéma SQL + RLS (0001_init.sql, 0002_super_admin.sql)"),
         code("├─ docs/                      cette documentation + le rapport d'activité"),
         code("├─ capacitor.config.ts       config des coquilles iOS/Android"),
         code("├─ ios/                      projet Xcode généré par Capacitor"),
         code("└─ android/                  projet Android Studio généré par Capacitor"),
 
         h1("5. Modèle de données"),
-        p("Schéma défini dans supabase/migrations/0001_init.sql, avec Row Level Security activée sur toutes les tables."),
+        p("Schéma défini dans supabase/migrations/ (0001_init.sql puis 0002_super_admin.sql), avec Row Level Security activée sur toutes les tables."),
         twoColTable(tableRows, [2400, 7200]),
         h2("Règles de sécurité (RLS) — logique générale"),
         bullet("Un·e employé·e ne voit et ne modifie que ses propres tâches, photos et notifications (+ les notifications broadcast)."),
-        bullet("Un admin (fonction is_admin() basée sur profiles.role) a un accès complet en lecture/écriture sur toutes les tables."),
+        bullet("La fonction is_admin() couvre les rôles admin ET super_admin : toute policy \"admin peut faire X\" s'applique donc automatiquement aux deux, sans duplication. is_super_admin() existe séparément pour les cas qui doivent rester exclusifs au super-admin."),
         bullet("Le bucket de stockage task-photos est privé : accès réservé aux utilisateurs authentifiés, upload réservé à l'assigné·e de la tâche ou à l'admin."),
+        bullet("Les actions les plus sensibles (déconnexion forcée, suppression de compte) ne passent pas par RLS : elles utilisent la clé service_role côté serveur (src/lib/supabase/admin.ts), jamais exposée au client."),
 
         h1("6. Authentification"),
         bullet("Deux méthodes : Google OAuth (via Supabase Auth) et email/mot de passe."),
         bullet("Un trigger Postgres (handle_new_user) crée automatiquement une ligne profiles à chaque inscription, avec le rôle par défaut employee."),
-        bullet("Le premier compte admin est promu manuellement en SQL ; ensuite, les admins peuvent promouvoir d'autres comptes depuis l'écran \"Équipe\"."),
-        bullet("Chaque connexion (Google ou mot de passe) est enregistrée dans activity_log — c'est ce qui alimente le suivi \"qui se connecte, quand\" côté admin."),
-        bullet("src/proxy.ts protège les routes : redirection vers /login si non connecté, redirection hors de /admin si le rôle n'est pas admin."),
+        bullet("Le premier compte admin est promu manuellement en SQL ; ensuite, les admins peuvent promouvoir d'autres comptes depuis l'écran \"Équipe\", et les super-admins depuis \"Comptes & sessions\"."),
+        bullet("Chaque connexion (Google ou mot de passe) est enregistrée dans activity_log — c'est ce qui alimente le suivi \"qui se connecte, quand\"."),
+        bullet("src/proxy.ts protège les routes : redirection vers /login si non connecté, hors de /admin si ni admin ni super_admin, hors de /super-admin si le rôle n'est pas exactement super_admin."),
 
         h1("7. Fonctionnalités — Espace employé"),
         ...employeeFeatures.map((f) => bullet(f)),
@@ -203,7 +214,10 @@ const doc = new Document({
         h1("8. Fonctionnalités — Espace admin"),
         ...adminFeatures.map((f) => bullet(f)),
 
-        h1("9. Déploiement & infrastructure"),
+        h1("9. Fonctionnalités — Espace super-admin (dev)"),
+        ...superAdminFeatures.map((f) => bullet(f)),
+
+        h1("10. Déploiement & infrastructure"),
         twoColTable(
           [
             ["Service", "Détail"],
@@ -216,20 +230,23 @@ const doc = new Document({
         ),
         new Paragraph({ children: [new PageBreak()] }),
 
-        h1("10. Mobile (Capacitor)"),
+        h1("11. Mobile (Capacitor)"),
         p("Commandes utiles :"),
-        code("npm run cap:sync      # après un changement de config/plugin"),
+        code("npm run cap:sync      # après un changement de config/plugin — IMPORTANT :"),
+        code("                      # aucun effet sur les apps déjà installées tant que"),
+        code("                      # ce n'est pas relancé (piège vécu : URL non à jour)"),
         code("npm run cap:ios       # ouvre ios/App/App.xcworkspace dans Xcode"),
         code("npm run cap:android   # ouvre le projet dans Android Studio"),
         p("Distribution limitée envisagée :"),
         bullet("iOS : TestFlight (test externe) — nécessite un compte Apple Developer Program (99$/an)."),
         bullet("Android : Google Play Console, piste de test interne/fermé — nécessite un compte développeur (25$ une fois)."),
 
-        h1("11. État actuel & reste à faire"),
+        h1("12. État actuel & reste à faire"),
         h2("Fait"),
-        bullet("Squelette complet fonctionnel, déployé et testé en conditions réelles (connexion Google vérifiée, compte admin opérationnel)."),
-        bullet("Schéma de données et sécurité en place."),
+        bullet("Squelette complet fonctionnel, déployé et testé en conditions réelles (connexion Google vérifiée, comptes admin et super-admin opérationnels)."),
+        bullet("Schéma de données et sécurité en place, y compris le rôle super-admin (comptes, sessions, suppression)."),
         bullet("Authentification Google + email/mot de passe opérationnelle en production."),
+        bullet("Monitoring de performance réel (Vercel Speed Insights) actif."),
         h2("Reste à faire"),
         bullet("Comptes Apple Developer Program et Google Play Console (à créer par Florian)."),
         bullet("sudo xcode-select --switch /Applications/Xcode.app à lancer localement pour pouvoir builder l'app iOS."),

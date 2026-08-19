@@ -18,6 +18,18 @@
         { "titre": "Débogage & tests réels", "detail": "Correction d'un bug de redirection post-connexion (Site URL Supabase), test de connexion réel, promotion du compte admin.", "minutes": 25 },
         { "titre": "Ajustements finaux", "detail": "Ajout d'une utilisatrice test, nettoyage des fichiers de projet IDE, commits, mise en place de cette documentation.", "minutes": 15 }
       ]
+    },
+    {
+      "date": "2026-08-19",
+      "resume": "Diagnostic et correction d'un bug de configuration mobile (l'app iOS chargeait le site d'une autre entreprise faute de synchronisation Capacitor), promotion d'une deuxième admin, puis mise en place d'un rôle super-admin dédié au développeur : gestion des comptes et sessions (déconnexion forcée, suppression), journal d'activité complet, et intégration de Vercel Speed Insights pour le suivi de performance réel.",
+      "blocs": [
+        { "titre": "Diagnostic bug app mobile", "detail": "L'app iOS chargeait le site d'une entreprise tierce au lieu de Cleaning App : config Capacitor jamais resynchronisée après la mise à jour de l'URL de déploiement. Correction (npx cap sync) et vérification.", "minutes": 15 },
+        { "titre": "Gestion de comptes", "detail": "Promotion d'une deuxième admin, déconnexion forcée d'un compte (invalidation de session côté Supabase).", "minutes": 10 },
+        { "titre": "Rôle super-admin — modèle de données", "detail": "Migration SQL : rôle super_admin, fonctions is_admin()/is_super_admin(), correction de contraintes de clé étrangère qui auraient bloqué la suppression de comptes ayant un historique.", "minutes": 20 },
+        { "titre": "Rôle super-admin — interface", "detail": "Nouvelle section /super-admin : vue d'ensemble, gestion des comptes et sessions (déconnexion/suppression/changement de rôle), journal d'activité complet tous comptes confondus.", "minutes": 40 },
+        { "titre": "Monitoring performance", "detail": "Intégration de Vercel Speed Insights (Web Vitals réels) plutôt que reconstruire un dashboard de performance maison.", "minutes": 10 },
+        { "titre": "Vérifications, déploiement & tests réels", "detail": "Build/lint/typecheck, migration appliquée en production, déploiement, vérification en direct des trois pages super-admin avec de vraies données.", "minutes": 20 }
+      ]
     }
   ]
 }
