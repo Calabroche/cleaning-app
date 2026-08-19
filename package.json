@@ -9,7 +9,10 @@
     "lint": "eslint",
     "cap:sync": "cap sync",
     "cap:ios": "cap open ios",
-    "cap:android": "cap open android"
+    "cap:android": "cap open android",
+    "docs:rapport": "node docs/source/generate-rapport.js",
+    "docs:technique": "node docs/source/generate-doc-technique.js",
+    "docs:all": "npm run docs:rapport && npm run docs:technique"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",
@@ -27,6 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "docx": "^9.7.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "tailwindcss": "^4",

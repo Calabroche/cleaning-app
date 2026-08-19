@@ -1,0 +1,23 @@
+{
+  "entries": [
+    {
+      "date": "2026-08-18",
+      "resume": "Mise en place complète du squelette applicatif de Cleaning App : app web Next.js (planning, tâches, photos, notifications) avec dashboard admin dédié, base de données et authentification Supabase (Google OAuth + email/mot de passe), coquilles natives iOS et Android via Capacitor, déploiement GitHub → Vercel, et configuration production de bout en bout (Supabase, Google Cloud OAuth) — vérifiée par une connexion réelle et la promotion du premier compte admin.",
+      "blocs": [
+        { "titre": "Cadrage & architecture", "detail": "Choix techniques : Capacitor mono-codebase, comptes Apple/Google en attente, Supabase existant vs nouveau, portée de la session.", "minutes": 15 },
+        { "titre": "Setup environnement", "detail": "Installation Node 24 (nvm), scaffold Next.js 16 / TypeScript / Tailwind 4.", "minutes": 10 },
+        { "titre": "Modèle de données & sécurité", "detail": "Schéma SQL complet (profils, appartements, tâches, photos, notifications, log d'activité), policies RLS, bucket de stockage privé.", "minutes": 20 },
+        { "titre": "Authentification", "detail": "Connexion Google OAuth + email/mot de passe, middleware de protection des routes, traçabilité des connexions.", "minutes": 25 },
+        { "titre": "Interface employé", "detail": "Planning du jour, détail de tâche, upload photo, changement de statut, liste de notifications.", "minutes": 35 },
+        { "titre": "Interface admin", "detail": "Vue d'ensemble, gestion planning/appartements/équipe, envoi de notifications, activité en temps réel.", "minutes": 45 },
+        { "titre": "Vérifications & migration technique", "detail": "Build/lint/typecheck, migration vers la convention Next.js 16 (proxy).", "minutes": 15 },
+        { "titre": "Intégration mobile", "detail": "Génération des projets natifs iOS (Xcode) et Android (Android Studio) via Capacitor.", "minutes": 20 },
+        { "titre": "Mise en ligne", "detail": "Création repo GitHub, création et liaison du projet Vercel, premier déploiement.", "minutes": 20 },
+        { "titre": "Configuration Supabase (prod)", "detail": "Création d'un projet Supabase dédié, correction d'une confusion avec un autre projet existant, exécution de la migration SQL en direct.", "minutes": 25 },
+        { "titre": "Configuration Google OAuth", "detail": "Création du projet Google Cloud, écran de consentement, client OAuth, intégration dans Supabase.", "minutes": 35 },
+        { "titre": "Débogage & tests réels", "detail": "Correction d'un bug de redirection post-connexion (Site URL Supabase), test de connexion réel, promotion du compte admin.", "minutes": 25 },
+        { "titre": "Ajustements finaux", "detail": "Ajout d'une utilisatrice test, nettoyage des fichiers de projet IDE, commits, mise en place de cette documentation.", "minutes": 15 }
+      ]
+    }
+  ]
+}
