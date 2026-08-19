@@ -1,5 +1,6 @@
 import { requireProfile } from "@/lib/get-profile";
 import { SyncBadge } from "@/components/SyncBadge";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import type { Apartment, Task } from "@/types/database";
 
 type TaskWithApartment = Task & { apartments: Pick<Apartment, "name"> | null };
@@ -98,6 +99,8 @@ export default async function ProfilePage() {
           );
         })}
       </div>
+
+      <ThemeToggle className="mb-2.5 h-[52px] w-full rounded-control bg-app-surface text-[15px] font-semibold text-app-body shadow-soft" />
 
       <form action="/auth/signout" method="post">
         <button

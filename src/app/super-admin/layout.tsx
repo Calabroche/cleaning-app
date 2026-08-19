@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/get-profile";
 import { SuperAdminNav } from "@/components/SuperAdminNav";
 import { SignOutButton } from "@/components/SignOutButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function SuperAdminLayout({ children }: { children: React.ReactNode }) {
   const { profile } = await requireProfile();
@@ -27,7 +28,10 @@ export default async function SuperAdminLayout({ children }: { children: React.R
             Connecté en tant que{" "}
             <span className="font-medium text-adm-ink">{profile.full_name || profile.email}</span>
           </p>
-          <SignOutButton />
+          <div className="flex items-center gap-3">
+            <ThemeToggle className="rounded-lg bg-adm-raised px-3 py-1.5 text-[12px] font-semibold text-adm-ink hover:bg-adm-hover" />
+            <SignOutButton />
+          </div>
         </header>
         <main className="flex-1 p-6">{children}</main>
       </div>

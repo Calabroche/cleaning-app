@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── App intervenant — direction « Naturel » ── */
+  /* ── App intervenant — direction « Naturel » (clair par défaut) ── */
   --color-app-bg: #f3f1ea;
   --color-app-surface: #fffdf8;
   --color-app-sunken: #eeece3;
@@ -13,7 +13,7 @@
   --color-app-faint: #a09a8c;
   --color-app-done: #9a958a;
 
-  /* ── Espace admin — direction « Hôtellerie » ── */
+  /* ── Espace admin — direction « Hôtellerie » (sombre par défaut) ── */
   --color-adm-bg: #14181a;
   --color-adm-rail: #1a1e21;
   --color-adm-surface: #1d2225;
@@ -47,6 +47,67 @@
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --text-label: 0.5625rem; /* 9px capitales admin */
   --tracking-label: 0.16em;
+}
+
+/* ============================================================
+   Mode clair/sombre. Chaque identité (app-* / adm-*) garde sa
+   personnalité mais devient basculable dans les deux sens.
+   Priorité : choix explicite (data-theme sur <html>, posé par
+   ThemeToggle + le script anti-flash) > préférence système > défaut.
+   ============================================================ */
+
+/* App intervenant — variante sombre (défaut = clair, voir @theme) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-app-bg: #16150f;
+    --color-app-surface: #201e17;
+    --color-app-sunken: #1c1a13;
+    --color-app-track: #2a271d;
+    --color-app-line: #332f22;
+    --color-app-ink: #f3f1ea;
+    --color-app-body: #d9d4c4;
+    --color-app-muted: #a39d8a;
+    --color-app-faint: #726c5c;
+    --color-app-done: #6b6656;
+  }
+}
+:root[data-theme="dark"] {
+  --color-app-bg: #16150f;
+  --color-app-surface: #201e17;
+  --color-app-sunken: #1c1a13;
+  --color-app-track: #2a271d;
+  --color-app-line: #332f22;
+  --color-app-ink: #f3f1ea;
+  --color-app-body: #d9d4c4;
+  --color-app-muted: #a39d8a;
+  --color-app-faint: #726c5c;
+  --color-app-done: #6b6656;
+}
+
+/* Espace admin — variante claire (défaut = sombre, voir @theme) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-adm-bg: #f4f5f5;
+    --color-adm-rail: #eef0f0;
+    --color-adm-surface: #ffffff;
+    --color-adm-raised: #e9ebeb;
+    --color-adm-hover: #eef0f0;
+    --color-adm-track: #dde0e0;
+    --color-adm-ink: #14181a;
+    --color-adm-muted: #5c6664;
+    --color-adm-faint: #8a9391;
+  }
+}
+:root[data-theme="light"] {
+  --color-adm-bg: #f4f5f5;
+  --color-adm-rail: #eef0f0;
+  --color-adm-surface: #ffffff;
+  --color-adm-raised: #e9ebeb;
+  --color-adm-hover: #eef0f0;
+  --color-adm-track: #dde0e0;
+  --color-adm-ink: #14181a;
+  --color-adm-muted: #5c6664;
+  --color-adm-faint: #8a9391;
 }
 
 @layer base {

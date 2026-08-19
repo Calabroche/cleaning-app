@@ -1,6 +1,7 @@
 import { requireProfile } from "@/lib/get-profile";
 import { AdminNav } from "@/components/AdminNav";
 import { SignOutButton } from "@/components/SignOutButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const { supabase, profile } = await requireProfile();
@@ -39,6 +40,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 Vue super admin (dev) →
               </a>
             )}
+            <ThemeToggle className="rounded-lg bg-adm-raised px-3 py-1.5 text-[12px] font-semibold text-adm-ink hover:bg-adm-hover" />
             <SignOutButton />
           </div>
         </header>
