@@ -37,11 +37,11 @@ export default async function SuperAdminOverviewPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-lg font-semibold">Vue d&apos;ensemble technique</h1>
-        <p className="text-sm text-neutral-500">
+        <h1 className="text-[15px] font-semibold">Vue d&apos;ensemble technique</h1>
+        <p className="text-[13px] text-adm-muted">
           Accès développeur : comptes, sessions, performance. La gestion métier (planning,
           appartements, notifications) reste dans la{" "}
-          <a href="/admin" className="underline">
+          <a href="/admin" className="text-adm-accent underline">
             vue admin
           </a>
           .
@@ -49,42 +49,42 @@ export default async function SuperAdminOverviewPage() {
       </div>
 
       <div className="grid grid-cols-4 gap-4">
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-semibold">{employeeCount ?? 0}</p>
-          <p className="text-sm text-neutral-500">Employé·es</p>
+        <div className="rounded-xl bg-adm-surface p-[18px]">
+          <p className="text-3xl font-semibold leading-tight">{employeeCount ?? 0}</p>
+          <p className="mt-2 text-[13px] text-adm-muted">Employé·es</p>
         </div>
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-semibold">{adminCount ?? 0}</p>
-          <p className="text-sm text-neutral-500">Admins</p>
+        <div className="rounded-xl bg-adm-surface p-[18px]">
+          <p className="text-3xl font-semibold leading-tight">{adminCount ?? 0}</p>
+          <p className="mt-2 text-[13px] text-adm-muted">Admins</p>
         </div>
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-semibold">{superAdminCount ?? 0}</p>
-          <p className="text-sm text-neutral-500">Super admins</p>
+        <div className="rounded-xl bg-adm-surface p-[18px]">
+          <p className="text-3xl font-semibold leading-tight">{superAdminCount ?? 0}</p>
+          <p className="mt-2 text-[13px] text-adm-muted">Super admins</p>
         </div>
-        <div className="rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-          <p className="text-2xl font-semibold">{totalActivity ?? 0}</p>
-          <p className="text-sm text-neutral-500">Événements journalisés</p>
+        <div className="rounded-xl bg-adm-surface p-[18px]">
+          <p className="text-3xl font-semibold leading-tight">{totalActivity ?? 0}</p>
+          <p className="mt-2 text-[13px] text-adm-muted">Événements journalisés</p>
         </div>
       </div>
 
       <div>
-        <h2 className="mb-2 text-sm font-medium text-neutral-500">
+        <h2 className="mb-2 text-label font-semibold tracking-label text-adm-muted">
           Performance & infrastructure (hors de cette app — dashboards natifs)
         </h2>
-        <div className="divide-y divide-neutral-100 rounded-xl border border-neutral-200 bg-white shadow-sm">
+        <div className="divide-y divide-white/[0.06] rounded-xl bg-adm-surface">
           {externalLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-between px-4 py-3 hover:bg-neutral-50"
+              className="flex items-center justify-between px-4 py-3 hover:bg-adm-hover"
             >
               <div>
-                <p className="text-sm font-medium">{link.label}</p>
-                <p className="text-xs text-neutral-400">{link.detail}</p>
+                <p className="text-[13px] font-medium">{link.label}</p>
+                <p className="text-xs text-adm-faint">{link.detail}</p>
               </div>
-              <span className="text-neutral-300">→</span>
+              <span className="text-adm-faint">→</span>
             </a>
           ))}
         </div>

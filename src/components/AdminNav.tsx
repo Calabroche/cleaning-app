@@ -7,26 +7,39 @@ const items = [
   { href: "/admin", label: "Vue d'ensemble", exact: true },
   { href: "/admin/planning", label: "Planning" },
   { href: "/admin/apartments", label: "Appartements" },
+  { href: "/admin/checklists", label: "Checklists" },
+  { href: "/admin/proofs", label: "Preuves" },
   { href: "/admin/users", label: "Équipe" },
   { href: "/admin/notifications", label: "Notifications" },
 ];
 
-export function AdminNav() {
+export function AdminNav({ pendingProofs = 0 }: { pendingProofs?: number }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-1 p-3">
+    <nav className="flex flex-col gap-0.5 p-3">
       {items.map((item) => {
         const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`rounded-lg px-3 py-2 text-sm font-medium ${
-              active ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-100"
+            className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-[13px] ${
+              active
+                ? "bg-adm-accent font-semibold text-on-accent-dark"
+                : "font-medium text-adm-muted hover:bg-adm-hover hover:text-adm-ink"
             }`}
           >
             {item.label}
+            {item.href === "/admin/proofs" && pendingProofs > 0 && (
+              <span
+                className={`rounded-md px-1.5 py-0.5 text-[10px] font-semibold ${
+                  active ? "bg-black/15" : "bg-adm-accent/15 text-adm-accent"
+                }`}
+              >
+                {pendingProofs}
+              </span>
+            )}
           </Link>
         );
       })}

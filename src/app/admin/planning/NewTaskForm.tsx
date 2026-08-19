@@ -28,11 +28,11 @@ export function NewTaskForm({
   }
 
   return (
-    <form ref={formRef} action={handleSubmit} className="space-y-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-sm">
-      <h2 className="text-sm font-medium text-neutral-500">Assigner une tâche</h2>
+    <form ref={formRef} action={handleSubmit} className="space-y-3 rounded-xl bg-adm-surface p-4">
+      <h2 className="text-label font-semibold tracking-label text-adm-muted">Assigner une tâche</h2>
 
       <div className="grid grid-cols-2 gap-3">
-        <select name="apartment_id" required className="rounded-lg border border-neutral-300 px-3 py-2 text-sm">
+        <select name="apartment_id" required className="rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none">
           <option value="">Appartement...</option>
           {apartments.map((a) => (
             <option key={a.id} value={a.id}>
@@ -41,7 +41,7 @@ export function NewTaskForm({
           ))}
         </select>
 
-        <select name="assigned_to" required className="rounded-lg border border-neutral-300 px-3 py-2 text-sm">
+        <select name="assigned_to" required className="rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none">
           <option value="">Employé·e...</option>
           {employees.map((e) => (
             <option key={e.id} value={e.id}>
@@ -54,13 +54,13 @@ export function NewTaskForm({
           type="date"
           name="scheduled_date"
           required
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none"
         />
 
         <input
           name="title"
           placeholder="Titre (ex: Ménage standard)"
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none placeholder:text-adm-faint"
         />
       </div>
 
@@ -68,20 +68,20 @@ export function NewTaskForm({
         name="description"
         placeholder="Consignes particulières..."
         rows={2}
-        className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm"
+        className="w-full rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none placeholder:text-adm-faint"
       />
 
-      <label className="flex items-center gap-2 text-sm text-neutral-600">
+      <label className="flex items-center gap-2 text-[13px] text-adm-muted">
         <input type="checkbox" name="is_urgent" className="h-4 w-4" />
         Urgent (notifie immédiatement l&apos;employé·e)
       </label>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-warn">{error}</p>}
 
       <button
         type="submit"
         disabled={isPending}
-        className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50"
+        className="rounded-lg bg-adm-accent px-4 py-2 text-[13px] font-semibold text-on-accent-dark disabled:opacity-50"
       >
         {isPending ? "Ajout..." : "Assigner"}
       </button>

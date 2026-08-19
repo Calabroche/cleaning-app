@@ -27,20 +27,20 @@ export default async function AdminPlanningPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-lg font-semibold">Planning</h1>
+      <h1 className="text-[15px] font-semibold">Planning</h1>
 
       <NewTaskForm apartments={apartments ?? []} employees={employees ?? []} />
 
       <div className="space-y-4">
         {dates.length === 0 && (
-          <p className="rounded-xl border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-400">
+          <p className="rounded-xl bg-adm-surface p-6 text-center text-[13px] text-adm-faint">
             Aucune tâche planifiée.
           </p>
         )}
         {dates.map((date) => (
           <div key={date}>
-            <h2 className="mb-2 text-sm font-medium text-neutral-500">{date}</h2>
-            <div className="divide-y divide-neutral-100 rounded-xl border border-neutral-200 bg-white shadow-sm">
+            <h2 className="mb-2 text-label font-semibold tracking-label text-adm-muted">{date}</h2>
+            <div className="divide-y divide-white/[0.06] rounded-xl bg-adm-surface">
               {grouped[date].map((task) => (
                 <TaskRow
                   key={task.id}

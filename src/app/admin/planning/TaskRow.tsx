@@ -25,13 +25,13 @@ export function TaskRow({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 text-sm">
+    <div className="flex items-center justify-between px-4 py-3 text-[13px]">
       <div>
         <p className="font-medium">
-          {task.is_urgent && <span className="text-red-500">⚠ </span>}
+          {task.is_urgent && <span className="text-warn-dark">⚠ </span>}
           {apartment?.name ?? "Appartement supprimé"} — {employee?.full_name || employee?.email || "Non assigné"}
         </p>
-        <p className="text-xs text-neutral-400">
+        <p className="text-xs text-adm-faint">
           {task.scheduled_date} · {statusLabel[task.status]}
         </p>
       </div>
@@ -43,7 +43,7 @@ export function TaskRow({
           })
         }
         disabled={isPending}
-        className="text-xs text-neutral-400 hover:text-red-600 disabled:opacity-50"
+        className="text-xs text-adm-faint hover:text-warn-dark disabled:opacity-50"
       >
         Supprimer
       </button>

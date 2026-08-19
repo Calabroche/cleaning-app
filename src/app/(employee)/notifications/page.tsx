@@ -13,12 +13,12 @@ export default async function NotificationsPage() {
     .returns<AppNotification[]>();
 
   return (
-    <div className="mx-auto max-w-lg space-y-3 px-4 py-4">
-      <h1 className="mb-1 text-lg font-semibold">Notifications</h1>
+    <div className="flex flex-col gap-2.5 px-[18px] pt-6 pb-4">
+      <h1 className="mb-2 text-[22px] font-semibold leading-tight">Messages</h1>
 
       {(!notifications || notifications.length === 0) && (
-        <p className="rounded-lg border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-400">
-          Aucune notification.
+        <p className="rounded-card bg-app-sunken p-6 text-center text-[15px] text-app-muted">
+          Aucun message pour le moment.
         </p>
       )}
 

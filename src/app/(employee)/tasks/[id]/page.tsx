@@ -1,19 +1,16 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { requireProfile } from "@/lib/get-profile";
-import type { Apartment, Task, TaskPhoto } from "@/types/database";
-import { StatusButtons } from "./StatusButtons";
-import { PhotoUploader } from "./PhotoUploader";
+import type { Apartment, Task, TaskItem, TaskPhoto } from "@/types/database";
+import { ChecklistSection } from "./ChecklistSection";
+import { FinishButton } from "./FinishButton";
 
 type TaskWithApartment = Task & { apartments: Apartment | null };
 
-export default async function TaskDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function TaskDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { supabase, profile } = await requireProfile();
+  const isAdmin = profile.role === "admin" || profile.role === "super_admin";
 
   const { data: task } = await supabase
     .from("tasks")
@@ -22,16 +19,20 @@ export default async function TaskDetailPage({
     .single<TaskWithApartment>();
 
   if (!task) notFound();
-  if (task.assigned_to !== profile.id && profile.role !== "admin") notFound();
+  if (task.assigned_to !== profile.id && !isAdmin) notFound();
 
-  const { data: photos } = await supabase
-    .from("task_photos")
-    .select("*")
-    .eq("task_id", id)
-    .order("created_at", { ascending: false })
-    .returns<TaskPhoto[]>();
+  const [{ data: items }, { data: photos }] = await Promise.all([
+    supabase
+      .from("task_items")
+      .select("*")
+      .eq("task_id", id)
+      .order("room")
+      .order("position")
+      .returns<TaskItem[]>(),
+    supabase.from("task_photos").select("*").eq("task_id", id).returns<TaskPhoto[]>(),
+  ]);
 
-  const photosWithUrls = await Promise.all(
+  const signed = await Promise.all(
     (photos ?? []).map(async (photo) => {
       const { data } = await supabase.storage
         .from("task-photos")
@@ -40,42 +41,70 @@ export default async function TaskDetailPage({
     })
   );
 
+  const rooms = (items ?? []).reduce<Record<string, TaskItem[]>>((acc, item) => {
+    (acc[item.room] ??= []).push(item);
+    return acc;
+  }, {});
+
+  const total = items?.length ?? 0;
+  const done = (items ?? []).filter((i) => i.done_at).length;
+  const remaining = total - done;
+
   return (
-    <div className="mx-auto max-w-lg space-y-5 px-4 py-4">
-      <div>
-        <h1 className="flex items-center gap-2 text-lg font-semibold">
-          {task.is_urgent && <span className="text-red-500">⚠ Urgent</span>}
-          {task.apartments?.name ?? "Appartement"}
-        </h1>
-        {task.apartments?.address && (
-          <p className="text-sm text-neutral-500">{task.apartments.address}</p>
+    <div className="flex min-h-screen flex-col">
+      <header className="flex flex-col gap-4 px-5 pt-5 pb-4">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            aria-label="Retour"
+            className="flex size-11 shrink-0 items-center justify-center rounded-control bg-app-surface text-lg shadow-soft"
+          >
+            ←
+          </Link>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl font-semibold leading-tight">
+              {task.is_urgent && <span className="text-warn">⚠ </span>}
+              {task.apartments?.name ?? "Appartement"}
+            </h1>
+            <p className="mt-0.5 text-sm text-app-muted">
+              {done} sur {total} items · {task.title.toLowerCase()}
+            </p>
+          </div>
+        </div>
+        <div className="h-2.5 overflow-hidden rounded-full bg-app-track">
+          <div
+            className="h-full rounded-full bg-accent"
+            style={{ width: `${total ? (done / total) * 100 : 0}%` }}
+          />
+        </div>
+      </header>
+
+      <div className="flex-1 px-[18px]">
+        {task.description && (
+          <p className="mb-5 rounded-tile bg-app-surface p-[18px] text-[17px] leading-relaxed text-app-body shadow-soft">
+            {task.description}
+          </p>
+        )}
+        {Object.entries(rooms).map(([room, roomItems]) => (
+          <ChecklistSection
+            key={room}
+            room={room}
+            taskId={task.id}
+            items={roomItems.map((item) => ({
+              ...item,
+              photos: signed.filter((p) => p.task_item_id === item.id),
+            }))}
+          />
+        ))}
+        {total === 0 && (
+          <p className="rounded-card bg-app-sunken p-6 text-center text-[17px] text-app-muted">
+            Aucune checklist rattachée à cet appartement.
+          </p>
         )}
       </div>
 
-      {task.description && (
-        <p className="rounded-lg bg-white p-3 text-sm text-neutral-700 shadow-sm">
-          {task.description}
-        </p>
-      )}
-
-      <StatusButtons taskId={task.id} current={task.status} />
-
-      <div>
-        <h2 className="mb-2 text-sm font-medium text-neutral-500">Photos</h2>
-        <PhotoUploader taskId={task.id} />
-
-        {photosWithUrls.length > 0 && (
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {photosWithUrls.map(
-              (photo) =>
-                photo.url && (
-                  <div key={photo.id} className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
-                    <Image src={photo.url} alt="" fill className="object-cover" unoptimized />
-                  </div>
-                )
-            )}
-          </div>
-        )}
+      <div className="px-[18px] pt-3.5 pb-[22px]">
+        <FinishButton taskId={task.id} remaining={remaining} />
       </div>
     </div>
   );

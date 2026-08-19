@@ -19,25 +19,25 @@ export default async function AdminNotificationsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-lg font-semibold">Notifications</h1>
+      <h1 className="text-[15px] font-semibold">Notifications</h1>
 
       <SendNotificationForm employees={employees ?? []} />
 
-      <div className="divide-y divide-neutral-100 rounded-xl border border-neutral-200 bg-white shadow-sm">
+      <div className="divide-y divide-white/[0.06] rounded-xl bg-adm-surface">
         {(!notifications || notifications.length === 0) && (
-          <p className="p-4 text-sm text-neutral-400">Aucune notification envoyée.</p>
+          <p className="p-4 text-[13px] text-adm-faint">Aucune notification envoyée.</p>
         )}
         {notifications?.map((n) => (
-          <div key={n.id} className="px-4 py-3 text-sm">
+          <div key={n.id} className="px-4 py-3 text-[13px]">
             <p className="font-medium">
               {n.type === "urgent" && "🚨 "}
               {n.title}{" "}
-              <span className="font-normal text-neutral-400">
+              <span className="font-normal text-adm-faint">
                 → {n.recipient_id ? employeeById.get(n.recipient_id)?.full_name ?? "?" : "tout le monde"}
               </span>
             </p>
-            {n.body && <p className="text-neutral-500">{n.body}</p>}
-            <p className="mt-1 text-xs text-neutral-400">
+            {n.body && <p className="text-adm-muted">{n.body}</p>}
+            <p className="mt-1 text-xs text-adm-faint">
               {new Date(n.created_at).toLocaleString("fr-FR")}
             </p>
           </div>

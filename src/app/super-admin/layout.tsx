@@ -11,25 +11,25 @@ export default async function SuperAdminLayout({ children }: { children: React.R
   }
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-56 shrink-0 border-r border-neutral-200 bg-neutral-950">
-        <div className="border-b border-neutral-800 px-4 py-4">
-          <p className="text-sm font-semibold text-white">Cleaning App</p>
-          <p className="text-xs text-neutral-400">Super admin (dev)</p>
+    <div className="flex min-h-screen bg-adm-bg text-adm-ink">
+      <aside className="w-56 shrink-0 border-r border-white/[0.07] bg-adm-rail">
+        <div className="border-b border-white/[0.07] px-[18px] py-5">
+          <p className="text-[15px] font-semibold">Cleaning App</p>
+          <p className="mt-1.5 text-label font-semibold tracking-label text-adm-muted">
+            SUPER ADMIN (DEV)
+          </p>
         </div>
         <SuperAdminNav />
       </aside>
-      <div className="flex flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-3">
-          <p className="text-sm text-neutral-500">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex items-center justify-between border-b border-white/[0.07] bg-adm-rail px-6 py-3.5">
+          <p className="text-[13px] text-adm-muted">
             Connecté en tant que{" "}
-            <span className="font-medium text-neutral-900">
-              {profile.full_name || profile.email}
-            </span>
+            <span className="font-medium text-adm-ink">{profile.full_name || profile.email}</span>
           </p>
           <SignOutButton />
         </header>
-        <main className="flex-1 bg-neutral-50 p-6">{children}</main>
+        <main className="flex-1 p-6">{children}</main>
       </div>
     </div>
   );

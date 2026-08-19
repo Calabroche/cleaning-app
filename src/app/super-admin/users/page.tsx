@@ -18,17 +18,17 @@ export default async function SuperAdminUsersPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-lg font-semibold">Comptes & sessions</h1>
-        <p className="text-sm text-neutral-500">
+        <h1 className="text-[15px] font-semibold">Comptes & sessions</h1>
+        <p className="text-[13px] text-adm-muted">
           Déconnecter invalide immédiatement toutes les sessions actives du compte. Supprimer
           efface le compte et son historique associé (photos, tâches restent mais sans
           propriétaire).
         </p>
       </div>
 
-      <div className="divide-y divide-neutral-100 rounded-xl border border-neutral-200 bg-white shadow-sm">
+      <div className="divide-y divide-white/[0.06] rounded-xl bg-adm-surface">
         {(!profiles || profiles.length === 0) && (
-          <p className="p-4 text-sm text-neutral-400">Aucun compte.</p>
+          <p className="p-4 text-[13px] text-adm-faint">Aucun compte.</p>
         )}
         {profiles?.map((p) => (
           <UserRow

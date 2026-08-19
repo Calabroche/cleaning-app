@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ── App intervenant — direction « Naturel » ── */
+  --color-app-bg: #f3f1ea;
+  --color-app-surface: #fffdf8;
+  --color-app-sunken: #eeece3;
+  --color-app-track: #eae7dd;
+  --color-app-line: #e2ded2;
+  --color-app-ink: #1b2420;
+  --color-app-body: #4d5651;
+  --color-app-muted: #77807a;
+  --color-app-faint: #a09a8c;
+  --color-app-done: #9a958a;
+
+  /* ── Espace admin — direction « Hôtellerie » ── */
+  --color-adm-bg: #14181a;
+  --color-adm-rail: #1a1e21;
+  --color-adm-surface: #1d2225;
+  --color-adm-raised: #262b2e;
+  --color-adm-hover: #22282b;
+  --color-adm-track: #2c3235;
+  --color-adm-ink: #f2f4f3;
+  --color-adm-muted: #98a29e;
+  --color-adm-faint: #6e7975;
+  --color-adm-accent: #22b98d; /* = accent-dark, alias pour les classes bg-adm-accent/text-adm-accent */
+
+  /* ── Signaux partagés ── */
+  --color-accent: #0e8f6f;
+  --color-accent-hover: #0a7458;
+  --color-accent-soft: #dfeee6;
+  --color-accent-dark: #22b98d;
+  --color-on-accent-dark: #0b1512;
+  --color-warn: #b45309;
+  --color-warn-soft: #fdf1e3;
+  --color-warn-dark: #e08d4f;
+
+  --radius-card: 20px;
+  --radius-hero: 24px;
+  --radius-tile: 18px;
+  --radius-control: 16px;
+
+  --shadow-soft: 0 2px 10px rgb(38 34 24 / 0.05);
+  --shadow-lift: 0 3px 14px rgb(38 34 24 / 0.07);
+  --shadow-hero: 0 4px 20px rgb(38 34 24 / 0.08);
+
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --text-label: 0.5625rem; /* 9px capitales admin */
+  --tracking-label: 0.16em;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-accent-hover);
+  }
 }
