@@ -45,6 +45,7 @@ export default function LoginPage() {
   }
 
   async function handleGoogleLogin() {
+    alert("debug: handleGoogleLogin called, native=" + Capacitor.isNativePlatform());
     setError(null);
 
     // Google refuse de s'authentifier dans une WebView embarquée (celle de
