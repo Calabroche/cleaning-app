@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Capacitor } from "@capacitor/core";
 import { Browser } from "@capacitor/browser";
@@ -99,6 +98,10 @@ export default function LoginPage() {
 
   return (
     <div className="space-y-6">
+      <p className="-mt-4 mb-2 text-center text-[15px] text-app-muted">
+        Connecte-toi pour lancer ta tournée du jour.
+      </p>
+
       <button
         onClick={handleGoogleLogin}
         type="button"
@@ -147,12 +150,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <p className="text-center text-sm text-app-muted">
-        Pas encore de compte ?{" "}
-        <Link href="/signup" className="font-medium text-app-ink underline">
-          Créer un compte
-        </Link>
-      </p>
+      <p className="text-center text-sm text-app-muted">Pas de compte ? Demande à ton responsable.</p>
     </div>
   );
 }
