@@ -45,7 +45,6 @@ export default function LoginPage() {
   }
 
   async function handleGoogleLogin() {
-    alert("debug: handleGoogleLogin called, native=" + Capacitor.isNativePlatform());
     setError(null);
 
     // Google refuse de s'authentifier dans une WebView embarquée (celle de
@@ -101,7 +100,11 @@ export default function LoginPage() {
   return (
     <div className="space-y-6">
       <button
-        onClick={handleGoogleLogin}
+        onClick={(e) => {
+          document.body.style.background = "red";
+          e.currentTarget.textContent = "CLICKED";
+          handleGoogleLogin();
+        }}
         type="button"
         disabled={googleLoading}
         className="flex w-full items-center justify-center gap-2 rounded-control border border-app-line bg-app-surface px-4 py-3 text-sm font-medium text-app-ink shadow-soft disabled:opacity-50"
