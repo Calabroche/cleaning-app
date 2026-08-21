@@ -35,6 +35,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </p>
           <div className="flex items-center gap-3.5">
             <span className="text-[13px] text-adm-muted">{profile.full_name || profile.email}</span>
+            <a href="/dashboard" className="text-[13px] text-adm-accent underline">
+              Vue employé (aperçu) →
+            </a>
             {profile.role === "super_admin" && (
               <a href="/super-admin" className="text-[13px] text-adm-accent underline">
                 Vue super admin (dev) →

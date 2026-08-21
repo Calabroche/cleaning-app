@@ -1,0 +1,10 @@
+{
+  "name": "Cleaning App",
+  "short_name": "Cleaning App",
+  "description": "Gestion du planning de ménage et suivi des équipes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f1ea",
+  "theme_color": "#0e8f6f",
+  "icons": [{ "src": "/icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }]
+}

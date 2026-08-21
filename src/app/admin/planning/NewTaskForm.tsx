@@ -42,10 +42,11 @@ export function NewTaskForm({
         </select>
 
         <select name="assigned_to" required className="rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none">
-          <option value="">Employé·e...</option>
+          <option value="">Assigné à...</option>
           {employees.map((e) => (
             <option key={e.id} value={e.id}>
               {e.full_name || e.email}
+              {e.role !== "employee" ? ` (${e.role})` : ""}
             </option>
           ))}
         </select>

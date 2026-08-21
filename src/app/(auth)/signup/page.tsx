@@ -39,7 +39,7 @@ export default function SignupPage() {
 
   if (done) {
     return (
-      <p className="text-center text-sm text-neutral-600">
+      <p className="text-center text-sm text-app-body">
         Compte créé. Vérifie ta boîte mail pour confirmer ton adresse, puis
         connecte-toi.
       </p>
@@ -50,51 +50,51 @@ export default function SignupPage() {
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-neutral-700">Nom complet</label>
+          <label className="mb-1 block text-sm font-medium text-app-body">Nom complet</label>
           <input
             type="text"
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+            className="w-full rounded-control border border-app-line bg-app-surface px-3 py-2.5 text-sm text-app-ink focus:border-accent focus:outline-none"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-neutral-700">Email</label>
+          <label className="mb-1 block text-sm font-medium text-app-body">Email</label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+            className="w-full rounded-control border border-app-line bg-app-surface px-3 py-2.5 text-sm text-app-ink focus:border-accent focus:outline-none"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-neutral-700">Mot de passe</label>
+          <label className="mb-1 block text-sm font-medium text-app-body">Mot de passe</label>
           <input
             type="password"
             required
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm focus:border-neutral-900 focus:outline-none"
+            className="w-full rounded-control border border-app-line bg-app-surface px-3 py-2.5 text-sm text-app-ink focus:border-accent focus:outline-none"
           />
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-warn">{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50"
+          className="w-full rounded-control bg-accent px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
         >
           {loading ? "Création..." : "Créer mon compte"}
         </button>
       </form>
 
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-center text-sm text-app-muted">
         Déjà un compte ?{" "}
-        <Link href="/login" className="font-medium text-neutral-900 underline">
+        <Link href="/login" className="font-medium text-app-ink underline">
           Se connecter
         </Link>
       </p>

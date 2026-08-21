@@ -36,6 +36,12 @@ export function SuperAdminNav() {
       >
         ← Vue admin (métier)
       </Link>
+      <Link
+        href="/dashboard"
+        className="rounded-lg px-3 py-2.5 text-[13px] font-medium text-adm-faint hover:bg-adm-hover hover:text-adm-muted"
+      >
+        ← Vue employé (aperçu)
+      </Link>
     </nav>
   );
 }

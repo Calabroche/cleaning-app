@@ -8,7 +8,9 @@ export default async function AdminPlanningPage() {
 
   const [{ data: apartments }, { data: employees }, { data: tasks }] = await Promise.all([
     supabase.from("apartments").select("*").order("name").returns<Apartment[]>(),
-    supabase.from("profiles").select("*").eq("role", "employee").returns<Profile[]>(),
+    // Tous les comptes, pas seulement role='employee' : Florian (super_admin) doit
+    // pouvoir s'assigner des tâches à lui-même pour voir ce que voit un intervenant.
+    supabase.from("profiles").select("*").order("full_name").returns<Profile[]>(),
     supabase
       .from("tasks")
       .select("*")
