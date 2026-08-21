@@ -100,11 +100,7 @@ export default function LoginPage() {
   return (
     <div className="space-y-6">
       <button
-        onClick={(e) => {
-          document.body.style.background = "red";
-          e.currentTarget.textContent = "CLICKED";
-          handleGoogleLogin();
-        }}
+        onClick={handleGoogleLogin}
         type="button"
         disabled={googleLoading}
         className="flex w-full items-center justify-center gap-2 rounded-control border border-app-line bg-app-surface px-4 py-3 text-sm font-medium text-app-ink shadow-soft disabled:opacity-50"
