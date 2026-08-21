@@ -35,7 +35,7 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <Stat label="AUJOURD'HUI" value={`${done}`} suffix={`/${tasks.length}`}>
           <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-adm-track">
             <div
@@ -97,7 +97,7 @@ export default async function AdminOverviewPage() {
                       {isLate ? " · pas commencé" : ""}
                     </p>
                   </div>
-                  <div className="w-28 shrink-0">
+                  <div className="hidden w-28 shrink-0 sm:block">
                     <div className="h-1.5 overflow-hidden rounded-full bg-adm-track">
                       <div
                         className="h-full bg-adm-accent"

@@ -45,7 +45,7 @@ export function ProofCard({
         </span>
       </header>
 
-      <div className="grid grid-cols-4 gap-3.5 px-5 py-[18px]">
+      <div className="grid grid-cols-2 gap-3.5 px-5 py-[18px] sm:grid-cols-3 lg:grid-cols-4">
         {documented.map((item) => (
           <div key={item.id}>
             <p className="mb-2 text-label font-semibold tracking-label text-adm-muted">
@@ -70,7 +70,7 @@ export function ProofCard({
         ))}
       </div>
 
-      <footer className="flex items-center gap-3 border-t border-white/[0.06] px-5 py-4">
+      <footer className="flex flex-wrap items-center gap-3 border-t border-white/[0.06] px-5 py-4">
         {asking ? (
           <>
             <input
@@ -78,7 +78,7 @@ export function ProofCard({
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Ce qui doit être refait…"
-              className="flex-1 rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none placeholder:text-adm-faint"
+              className="min-w-0 flex-1 rounded-lg bg-adm-hover px-3 py-2 text-[13px] outline-none placeholder:text-adm-faint"
             />
             <button
               type="button"

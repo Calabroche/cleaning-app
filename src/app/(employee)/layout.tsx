@@ -10,7 +10,7 @@ export default async function EmployeeLayout({
   const isAdmin = profile.role === "admin" || profile.role === "super_admin";
 
   return (
-    <div className="flex min-h-screen flex-col bg-app-bg text-app-ink">
+    <div className="safe-area-screen flex min-h-screen flex-col bg-app-bg text-app-ink">
       {isAdmin && (
         <a
           href={profile.role === "super_admin" ? "/super-admin" : "/admin"}

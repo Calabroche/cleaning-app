@@ -48,7 +48,7 @@ export default async function SuperAdminOverviewPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <div className="rounded-xl bg-adm-surface p-[18px]">
           <p className="text-3xl font-semibold leading-tight">{employeeCount ?? 0}</p>
           <p className="mt-2 text-[13px] text-adm-muted">Employé·es</p>

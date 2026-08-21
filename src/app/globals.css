@@ -118,6 +118,14 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+  /* viewport-fit=cover (metadata) fait passer le contenu sous l'encoche et
+     la barre d'accueil. On compense via une classe appliquée aux conteneurs
+     racine min-h-screen (pas sur body : ça doublerait la hauteur avec un
+     enfant déjà à 100vh). env() vaut 0 sans encoche/barre. */
+  .safe-area-screen {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
   a {
     color: var(--color-accent);
     text-decoration: none;
